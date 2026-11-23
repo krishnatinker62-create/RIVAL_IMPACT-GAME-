@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#05060b">
+  <title>RIVAL IMPACT — World Tour</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./ui_v8.css">
+  <script type="importmap">
+    {"imports":{
+      "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }}
+  </script>
+</head>
+<body>
+<div id="game-root">
+  <canvas id="game-canvas"></canvas>
+  <canvas id="menu-fx"></canvas>
+
+  <section id="main-menu" class="screen title">
+    <div class="logo">
+      <div class="kanji">衝撃</div>
+      <h1 class="logo-text"><span>RIVAL</span><span>IMPACT</span></h1>
+      <div class="logo-sub">WORLD TOUR</div>
+    </div>
+    <nav id="menu-list">
+      <button data-mode="arcade" class="c-cyan">ARCADE MODE</button>
+      <button data-mode="team" class="c-red">TEAM BATTLE · 3 VS 3</button>
+      <button data-mode="force" class="c-green">TEKKEN FORCE</button>
+      <button data-mode="vs" class="c-gold">VS MODE</button>
+      <button data-mode="practice" class="c-cyan">PRACTICE MODE</button>
+      <button data-mode="options" class="c-gold">OPTION MODE</button>
+    </nav>
+    <div class="press-start" id="press-start"><b>PRESS START</b><span>press any key · click · gamepad button</span></div>
+    <div class="menu-bar" id="menu-bar"></div>
+    <div class="menu-hint">W / S or ↑ / ↓ to choose &nbsp;·&nbsp; <span class="kh-ok">ENTER</span> to confirm</div>
+  </section>
+
+  <section id="options" class="screen hidden">
+    <div class="panel">
+      <h2>OPTION MODE</h2>
+      <div class="opt-row" data-opt="quality"><span>GRAPHICS</span><button id="opt-quality" class="chip"></button></div>
+      <div class="opt-row" data-opt="music"><span>MUSIC VOLUME</span><button id="opt-music" class="chip"></button></div>
+      <div class="opt-row" data-opt="sfx"><span>SFX VOLUME</span><button id="opt-sfx" class="chip"></button></div>
+      <div class="opt-row" data-opt="voice"><span>ANNOUNCER VOICE</span><button id="opt-voice" class="chip"></button></div>
+      <div class="opt-row" data-opt="haz"><span>STAGE HAZARDS</span><button id="opt-haz" class="chip"></button></div>
+      <div class="opt-row" data-opt="shake"><span>SCREEN SHAKE</span><button id="opt-shake" class="chip"></button></div>
+      <div class="opt-row" data-opt="fullscreen"><span>FULLSCREEN</span><button id="opt-fullscreen" class="chip"></button></div>
+      <div class="ctl-grid">
+        <div><h3>PLAYER 1</h3><p>A / D &nbsp;Move<br>W / S, Q / E &nbsp;Side-step<br>J Punch · K Kick · L Heavy<br>Left Shift / Space &nbsp;Block<br>H &nbsp;IMPACT when the meter is full</p></div>
+        <div><h3>PLAYER 2 (VS MODE)</h3><p>← / → &nbsp;Move<br>↑ / ↓ &nbsp;Side-step<br>, Punch · . Kick · / Heavy<br>Right Shift &nbsp;Block<br>H / ; &nbsp;IMPACT (P1 / P2)</p></div>
+      </div>
+      <div class="pad-help"><h3>GAMEPAD</h3><p>Stick / D-Pad Move &amp; Side-step · Right stick ↑↓ Fast side-step<br>X / ▢ Punch · A / ✕ Kick · Y / △ Heavy · Select / stick-click IMPACT · B / ◯, LB, RB, LT, RT Block · Start Pause</p></div>
+      <button id="opt-back" class="btn" data-opt="back">← BACK</button>
+    </div>
+  </section>
+
+  <section id="select-screen" class="screen hidden">
+    <div class="sel-glow l"></div><div class="sel-glow r"></div>
+    <div class="ghost l" id="ghost-l"></div><div class="ghost r" id="ghost-r"></div>
+    <div class="sel-title" id="sel-title">SELECT YOUR FIGHTER</div>
+    <div class="side-info l" id="info-l"></div>
+    <div class="side-info r" id="info-r"></div>
+    <div class="roster" id="roster"></div>
+    <div class="keys"><span><b class="kh-ok">ENTER</b> Confirm</span><span><b class="kh-bk">ESC</b> Back</span><span><b>A D W S</b> / <b>ARROWS</b> Move</span><span><b class="kh-alt">C</b> Alt color</span></div>
+  </section>
+
+  <div id="diff" class="overlay hidden"><div class="panel diffp"><h2>SELECT DIFFICULTY</h2><div class="diff-row" id="diff-row"></div><p id="diff-note"></p>
+    <div class="keys inl"><span><b>← →</b> Choose</span><span><b class="kh-ok">ENTER</b> Confirm</span><span><b class="kh-bk">ESC</b> Back</span></div></div></div>
+
+  <section id="stage-screen" class="screen hidden">
+    <div class="stage-title"><h1 id="stage-name">NEON ARENA</h1><div id="stage-tag"></div></div>
+    <div class="stage-thumbs" id="stage-thumbs"></div>
+    <div class="keys"><span><b class="kh-ok">ENTER</b> Confirm</span><span><b class="kh-bk">ESC</b> Back</span><span><b>← →</b> Choose stage</span></div>
+  </section>
+
+  <section id="vs-screen" class="screen hidden">
+    <div class="vs-head"><div id="vs-stage">STAGE 1 / 8</div><div id="vs-sub">NEXT OPPONENT</div><div id="vs-arena"></div></div>
+    <div id="vs-warn" class="vs-warn hidden">⚠ WARNING · FINAL BOSS ⚠</div>
+    <div class="vs-name l" id="vs-l"></div><div class="vs-mid">VS</div><div class="vs-name r" id="vs-r"></div>
+    <div class="vs-ladder" id="vs-ladder"></div>
+    <div class="keys"><span><b class="kh-ok">ENTER</b> Skip</span></div>
+  </section>
+
+  <section id="ending-screen" class="screen hidden">
+    <div class="cine-bar top"></div><div class="cine-bar bot"></div>
+    <div class="end-box"><div id="end-name"></div><h1 id="end-title"></h1><p id="end-text"></p></div>
+    <div class="end-score hidden" id="end-score"></div>
+    <div class="keys"><span><b class="kh-ok">ENTER</b> Continue</span></div>
+  </section>
+
+  <section id="loading" class="screen hidden"><div class="loading-box"><div class="spin"></div><span id="loading-text">LOADING</span><em id="loading-tip"></em></div></section>
+
+  <section id="hud" class="hidden">
+    <div class="hud-top">
+      <div class="bar l"><img id="hud-pic-l" alt=""><div class="track"><i id="ghost-bar-l" class="ghostfill"></i><i id="hp-l" class="fill"></i></div><div class="nm" id="hud-name-l"></div><div class="dots" id="dots-l"></div></div>
+      <div class="clock"><div id="timer">60</div></div>
+      <div class="bar r"><img id="hud-pic-r" alt=""><div class="track"><i id="ghost-bar-r" class="ghostfill"></i><i id="hp-r" class="fill"></i></div><div class="nm" id="hud-name-r"></div><div class="dots" id="dots-r"></div></div>
+    </div>
+    <div class="imp l" id="imp-l"><span>IMPACT</span><div class="imp-track"><i id="meter-l"></i></div></div><div class="imp r" id="imp-r"><span>IMPACT</span><div class="imp-track"><i id="meter-r"></i></div></div>
+    <div id="dmg-layer"></div>
+    <div id="hud-arc" class="hud-arc hidden"><span id="arc-stage"></span><span id="arc-score"></span></div>
+    <div id="combo-l" class="combo l"></div><div id="combo-r" class="combo r"></div>
+    <div id="banner" class="banner"></div>
+    <div class="hud-bottom"><span id="hud-help"></span><button id="pause-btn">PAUSE</button></div>
+    <div id="pause" class="overlay hidden"><div class="panel"><h2>PAUSED</h2><div class="btns">
+      <button class="btn" data-act="resume">RESUME</button><button class="btn" data-act="moves">MOVE LIST</button><button class="btn" data-act="restart">RESTART MATCH</button><button class="btn" data-act="select">CHARACTER SELECT</button><button class="btn" data-act="menu">MAIN MENU</button></div></div></div>
+    <div id="movelist" class="overlay hidden"><div class="panel wide"><h2>MOVE LIST</h2><div id="move-body"></div><div class="btns"><button class="btn" data-act="movesback">← BACK</button></div></div></div>
+    <div id="result" class="overlay hidden"><div class="panel"><h2 id="result-title">VICTORY</h2><p id="result-sub"></p><div class="btns" id="result-btns"></div></div></div>
+    <div id="continue" class="overlay hidden"><div class="panel cont"><h2>CONTINUE?</h2><div id="cont-n">9</div><p id="cont-sub"></p><div class="btns">
+      <button class="btn pri" data-act="cont">YES · CONTINUE</button><button class="btn" data-act="quit">NO · GIVE UP</button></div></div></div>
+    <div id="replay-ui" class="hidden"><div class="rp-bar top"></div><div class="rp-bar bot"></div><div class="rp-scan"></div>
+      <div class="rp-tag"><i></i>REPLAY</div><div class="rp-skip"><b class="kh-ok">ENTER</b> Skip</div></div>
+    <div id="flash"></div>
+  </section>
+
+  <div id="fade"></div>
+  <div id="toast" class="toast"></div>
+  <div id="error-box" class="error-box hidden"></div>
+</div>
+<script type="module" src="./main.js"></script>
+<script type="module" src="./touch.js"></script>
+</body>
+</html>

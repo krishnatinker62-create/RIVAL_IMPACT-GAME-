@@ -1,0 +1,106 @@
+/* =====================================================================
+   v8 UI / UX layer (loaded after style.css): glass panels, smoother motion, better HUD,
+   short-screen (phone landscape) layout fixes, touch controls.
+   ===================================================================== */
+:root{--glass:rgba(12,16,30,.78);--line:rgba(170,190,230,.22);--ease:cubic-bezier(.2,.9,.3,1)}
+html,body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+button{touch-action:manipulation}
+
+/* ---------- main menu ---------- */
+#main-menu{background:radial-gradient(ellipse at 50% 40%,transparent 28%,rgba(0,0,0,.55) 78%),linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 62%,rgba(0,0,0,.6))}
+#menu-list button{transition:transform .2s var(--ease),filter .2s,letter-spacing .28s var(--ease);will-change:transform}
+#menu-list button.on{letter-spacing:.2em;transform:scale(1.09)}
+#menu-list button:active{transform:scale(.97)}
+.menu-bar{opacity:.9;box-shadow:0 0 40px rgba(255,255,255,.08)}
+.menu-hint{text-shadow:0 1px 6px #000;color:#a8aebe}
+.press-start b{text-shadow:0 0 22px rgba(255,255,255,.7)}
+
+/* ---------- panels (options, pause, result, continue, move list) ---------- */
+.overlay,#options{background:radial-gradient(ellipse at center,rgba(6,8,16,.7),rgba(0,0,0,.88))}
+.panel{background:linear-gradient(160deg,rgba(28,34,56,.9),rgba(8,10,18,.94));backdrop-filter:blur(14px) saturate(1.25);-webkit-backdrop-filter:blur(14px) saturate(1.25);
+ border:1px solid var(--line);border-left:4px solid var(--red);box-shadow:0 24px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.07);
+ max-height:94vh;overflow-y:auto;animation:panelin .3s var(--ease)}
+@keyframes panelin{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.panel h2{background:linear-gradient(180deg,#fff,#b9c4dc);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 rgba(0,0,0,.6))}
+.btn,.chip{border-radius:2px;border-color:rgba(150,170,210,.35);background:linear-gradient(180deg,#1a2238,#10162a)}
+.btn:hover,.chip:hover,.btn.f{box-shadow:0 0 22px rgba(45,226,230,.3)}
+.btn:active,.chip:active{transform:skewX(-8deg) scale(.97)}
+.btn.pri{background:linear-gradient(180deg,#ff4a58,#d41a2a);box-shadow:0 6px 22px rgba(255,45,61,.35)}
+.chip{min-width:130px;text-align:center}
+.opt-row{border-bottom:1px solid rgba(255,255,255,.05)}
+
+/* ---------- character select ---------- */
+.tile{border-color:rgba(130,150,190,.4);box-shadow:0 6px 18px rgba(0,0,0,.55);transition:border-color .12s,transform .18s var(--ease),box-shadow .18s}
+.tile img{filter:saturate(1.1) contrast(1.08) brightness(1.04)}
+.tile:hover{transform:skewX(-8deg) translateY(-4px);border-color:#fff}
+.tile span{letter-spacing:.14em;text-shadow:0 1px 3px #000}
+.side-info h2{letter-spacing:.02em}
+.sbar i{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.sel-title{text-shadow:0 0 24px rgba(255,255,255,.45),0 3px 0 rgba(0,0,0,.6)}
+.keys b{border-radius:3px;box-shadow:0 2px 0 rgba(0,0,0,.5)}
+
+/* ---------- stage select ---------- */
+.sthumb{transition:transform .2s var(--ease),opacity .2s,box-shadow .2s;border-radius:2px;box-shadow:0 8px 20px rgba(0,0,0,.55)}
+.stage-title h1{filter:drop-shadow(0 0 22px rgba(255,255,255,.25))}
+
+/* ---------- HUD ---------- */
+.track{border-color:rgba(255,255,255,.9);background:linear-gradient(180deg,#0b0a12,#1d1522);box-shadow:0 0 0 2px rgba(0,0,0,.55),0 6px 22px rgba(0,0,0,.5)}
+.fill::after{content:"";position:absolute;left:0;right:0;top:0;height:45%;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0))}
+.bar img{box-shadow:0 0 0 2px rgba(0,0,0,.6),0 4px 14px rgba(0,0,0,.6)}
+.nm{text-shadow:0 2px 0 #000,0 0 14px rgba(0,0,0,.8)}
+.clock div{text-shadow:0 4px 0 rgba(0,0,0,.6),0 0 24px rgba(255,255,255,.35)}
+.combo{filter:drop-shadow(0 4px 10px rgba(0,0,0,.6))}
+.hud-bottom{background:linear-gradient(transparent,rgba(0,0,0,.4))}
+.hud-bottom button{border-radius:2px;backdrop-filter:blur(6px);transition:background .15s}
+.hud-bottom button:hover{background:rgba(34,48,76,.95)}
+.toast{border-radius:2px;box-shadow:0 10px 36px rgba(0,0,0,.6)}
+#loading{background:radial-gradient(ellipse at center,#0d1224,#000 75%)}
+.loading-box{text-shadow:0 0 18px rgba(255,255,255,.35)}
+
+/* ---------- short screens (phone landscape): stop menu overlap, tighten panels ---------- */
+@media (max-height:600px){
+ #main-menu{gap:0;justify-content:flex-start;padding-top:2vh}
+ .logo{height:35vh}.kanji{font-size:33vh}.logo-text{font-size:13vh}.logo-sub{font-size:4vh}
+ #menu-list{margin-top:.5vh}
+ #menu-list button{font-size:5vh;padding:.12em 2em}
+ .menu-bar{height:6.2vh}
+ .menu-hint{display:none}
+ .panel{padding:14px 20px;gap:8px}.panel h2{font-size:34px}.panel p{font-size:14px}
+ .btn,.chip{padding:8px 16px;font-size:16px}.opt-row{font-size:16px;padding:3px 10px}
+ .ctl-grid,.pad-help{display:none}
+ .keys{font-size:12px;gap:14px}
+ .side-info h2{font-size:min(9vh,56px)}
+}
+
+/* ---------- touch devices ---------- */
+body.is-touch .menu-hint,body.is-touch .keys,body.is-touch #hud-help,body.is-touch .ctl-grid,body.is-touch .pad-help{display:none}
+body.is-touch .tile{min-width:0}
+#touch-ui{position:absolute;inset:0;z-index:4;pointer-events:none;display:none;--u:min(15vh,74px)}
+body.is-touch #hud:not(.hidden) #touch-ui{display:block}
+.tpad{position:absolute;left:max(2vw,env(safe-area-inset-left));bottom:max(3vh,env(safe-area-inset-bottom));display:grid;gap:1vh;
+ grid-template-columns:repeat(3,var(--u));grid-template-rows:repeat(3,var(--u));grid-template-areas:". u ." "l . r" ". d ."}
+.tact{position:absolute;right:max(2vw,env(safe-area-inset-right));bottom:max(3vh,env(safe-area-inset-bottom));display:grid;gap:1vh;
+ grid-template-columns:repeat(3,var(--u));grid-template-rows:repeat(2,var(--u));grid-template-areas:"b h i" "p k ."}
+.tc{pointer-events:auto;touch-action:none;display:grid;place-items:center;border-radius:50%;font:900 italic min(3.4vh,17px)/1 var(--f);letter-spacing:.08em;color:#fff;
+ background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.22),rgba(14,18,34,.55));border:2px solid rgba(255,255,255,.38);backdrop-filter:blur(4px);
+ box-shadow:0 6px 16px rgba(0,0,0,.45);transition:transform .06s,background .06s;-webkit-user-select:none;user-select:none}
+.tc.dir{border-radius:22%;font-size:min(4.4vh,22px)}
+.tc.on{transform:scale(.92);background:radial-gradient(circle,rgba(255,194,58,.7),rgba(255,120,20,.45));border-color:#ffc23a}
+.tc.pun{border-color:#ff8a8a}.tc.kck{border-color:#7ad0ff}.tc.hvy{border-color:#ffd23a}.tc.blk{border-color:#8affb0}
+.tc.imp{border-color:#ff5ad8;box-shadow:0 0 18px rgba(255,90,216,.5)}
+body.is-touch #pause-btn{position:fixed;bottom:max(2vh,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:6px 16px}
+.tb{display:none;position:absolute;z-index:12;bottom:max(3vh,env(safe-area-inset-bottom));font:800 italic min(3.6vh,18px) var(--f);letter-spacing:.14em;padding:10px 22px;color:#fff;
+ background:linear-gradient(180deg,#1a2238,#10162a);border:1px solid rgba(160,180,220,.45);border-radius:2px;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+#touch-back{left:max(2vw,env(safe-area-inset-left))}#touch-ok{right:max(2vw,env(safe-area-inset-right));background:linear-gradient(180deg,#ff4a58,#d41a2a)}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}}
+
+/* v9: keep HUD clear of phone notches / rounded corners */
+.hud-top{padding-left:max(2vw,env(safe-area-inset-left));padding-right:max(2vw,env(safe-area-inset-right))}
+
+/* ---- locked character (Rudra) ---- */
+.tile.locked img{filter:grayscale(1) brightness(.35) contrast(1.1)}
+.tile.locked{border-color:#5a5340}
+.tile .lk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-style:normal;font-size:min(4.2vh,30px);transform:skewX(8deg);z-index:3;text-shadow:0 2px 8px #000;pointer-events:none}
+.tile .lk small{font:900 min(1.3vh,10px) var(--f);letter-spacing:.16em;color:#ffd36a;margin-top:2px}
+.lock-note{margin:6px 0 8px;padding:8px 10px;border:1px solid #ffd36a;background:rgba(40,30,0,.55);color:#ffe9a8;font:700 12px var(--f);letter-spacing:.06em;line-height:1.4}
+.lock-note b{display:block;color:#ffd36a;font-size:14px;letter-spacing:.2em}
