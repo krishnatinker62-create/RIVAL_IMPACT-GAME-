@@ -1,0 +1,73 @@
+{
+  "characters": {
+    "shivansh": {
+      "file": "rudra.glb",
+      "rotY": 0
+    },
+    "madhav": {
+      "file": "madhav.glb",
+      "rotY": 0
+    },
+    "hanuman": {
+      "file": "hanuman.glb",
+      "rotY": 0,
+      "lo": "hanuman_lo.glb"
+    },
+    "narsimha": {
+      "file": "narsimha.glb",
+      "rotY": 0,
+      "lo": "narsimha_lo.glb"
+    },
+    "arjun": {
+      "file": "arjun.glb",
+      "rotY": 0
+    },
+    "rani": {
+      "file": "rani.glb",
+      "rotY": 0
+    },
+    "xiyou": {
+      "file": "xiyou.glb",
+      "rotY": 0
+    },
+    "sumo": {
+      "file": "sumo.glb",
+      "rotY": 0
+    },
+    "danceking": {
+      "file": "danceking.glb",
+      "rotY": 0
+    },
+    "hao": {
+      "file": "hao.glb",
+      "rotY": 0,
+      "lo": "hao_lo.glb"
+    },
+    "rika": {
+      "file": "rika.glb",
+      "rotY": 0
+    },
+    "kazura": {
+      "file": "kazura.glb",
+      "rotY": 0
+    },
+    "raghav": {
+      "file": "raghav.glb",
+      "rotY": 0,
+      "lo": "raghav_lo.glb"
+    },
+    "yuki": {
+      "file": "yuki.glb",
+      "rotY": 0
+    },
+    "samurai": {
+      "file": "samurai.glb",
+      "rotY": 0
+    },
+    "lilong": {
+      "file": "lilong.glb",
+      "rotY": 0
+    }
+  },
+  "anims": {}
+}
